@@ -1,0 +1,7 @@
+mysqlUser: "sonar-user"
+mysqlPassword: "sonar-password"
+mysqlDatabase: "sonar-database"
+service:
+  port: 3306
+persistence:
+  enabled: true
