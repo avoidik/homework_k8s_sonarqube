@@ -20,9 +20,9 @@ provider "kubernetes" {
   config_context = "${var.minikube_profile}"
 }
 
-resource "kubernetes_namespace" "mysql" {
+resource "kubernetes_namespace" "postgresql" {
   metadata {
-    name = "mysql"
+    name = "postgresql"
   }
 }
 
@@ -37,15 +37,15 @@ data "helm_repository" "stable" {
   url  = "https://kubernetes-charts.storage.googleapis.com"
 }
 
-resource "helm_release" "mysql" {
-  name       = "mysql"
-  chart      = "stable/mysql"
+resource "helm_release" "postgresql" {
+  name       = "postgresql"
+  chart      = "stable/postgresql"
   repository = "${data.helm_repository.stable.metadata.0.name}"
-  version    = "1.6.2"
-  namespace  = "mysql"
+  version    = "8.3.0"
+  namespace  = "postgresql"
   atomic     = true
-  values     = ["${file("${path.root}/values/mysql.yaml")}"]
-  depends_on = ["kubernetes_namespace.mysql"]
+  values     = ["${file("${path.root}/values/postgresql.yaml")}"]
+  depends_on = ["kubernetes_namespace.postgresql"]
 }
 
 resource "helm_release" "sonarqube" {
@@ -56,5 +56,5 @@ resource "helm_release" "sonarqube" {
   namespace  = "sonarqube"
   atomic     = true
   values     = ["${file("${path.root}/values/sonarqube.yaml")}"]
-  depends_on = ["kubernetes_namespace.sonarqube", "helm_release.mysql"]
+  depends_on = ["kubernetes_namespace.sonarqube", "helm_release.postgresql"]
 }

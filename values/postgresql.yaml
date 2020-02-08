@@ -1,0 +1,7 @@
+postgresqlUsername: "sonar-user"
+postgresqlPassword: "sonar-password"
+postgresqlDatabase: "sonar-database"
+service:
+  port: 5432
+persistence:
+  enabled: true

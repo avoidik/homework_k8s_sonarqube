@@ -1,10 +1,8 @@
 # K8s
 
-## SonarQube + MySQL
+## SonarQube + PostgreSQL
 
-In this exercise we will install SonarQube with MySQL on a local Kubernetes cluster atop Minikube
-
-Please keep in mind, SonarQube 7.9 and above does not support MySQL backend! Therefore, the latest version of SonarQube supported MySQL backend is 7.8. Check `feature/postgresql` branch if you wanted to use latest version of SonarQube.
+In this exercise we will install latest SonarQube with PostgreSQL on a local Kubernetes cluster atop Minikube
 
 Tiller is obsolete in Helm 3, hence not presented in this exercise.
 
@@ -12,9 +10,9 @@ The deployment process is as follows
 
 1. Run Minikube cluster
 1. Configure Helm
-1. Deploy MySQL chart into a separate namespace with data persistance
+1. Deploy PostgreSQL chart into a separate namespace with data persistance
 1. Deploy SonarQube chart into a separate namespace with data persistance
-1. Configure Ingress for both MySQL and SonarQube
+1. Configure Ingress for both PostgreSQL and SonarQube
 
 On a first try the deployment process may take up to 5 minutes (e.g. images downloading).
 
@@ -65,7 +63,7 @@ Terminate deployment
 Initiate deployment
 
 ```bash
-./helm.mysql.sh
+./helm.postgresql.sh
 ./helm.sonarqube.sh
 ```
 
@@ -73,17 +71,17 @@ Terminate deployment
 
 ```bash
 ./helm.sonarqube.sh --destroy
-./helm.mysql.sh --destroy
+./helm.postgresql.sh --destroy
 ```
 
 ## Accessing services
 
-Additional changes might be required to expose service ports through Minikube, and access SonarQube or MySQL from your local machine.
+Additional changes might be required to expose service ports through Minikube, and access SonarQube or PostgreSQL from your local machine.
 
 At your convenience there are three options available:
 
 1. With Shell automation - applied automatically
-1. With Terraform automation - use `terraform.svc.mysql.sh`
+1. With Terraform automation - use `terraform.svc.pgsql.sh`
 1. Manually, check steps below
 
 ### Ingress as Minikube addon
@@ -95,18 +93,18 @@ minikube addons enable ingress
 # patch up ports
 kubectl patch configmap tcp-services \
   -n kube-system \
-  -p '{"data":{"3306":"mysql/mysql:3306"}}'
+  -p '{"data":{"5432":"postgresql/postgresql:5432"}}'
 
 kubectl patch deployment nginx-ingress-controller \
   -n kube-system \
-  -p '{"spec":{"template":{"spec":{"containers":[{"name":"nginx-ingress-controller","ports":[{"containerPort":3306,"protocol":"TCP","hostPort":3306}]}]}}}}'
+  -p '{"spec":{"template":{"spec":{"containers":[{"name":"nginx-ingress-controller","ports":[{"containerPort":5432,"protocol":"TCP","hostPort":5432}]}]}}}}'
 
 # OR
 
 kubectl patch deployment nginx-ingress-controller \
   -n kube-system \
   --type='json' \
-  -p='[{"op": "add", "path": "/spec/template/spec/containers/0/ports/-", "value": {"containerPort": 3306, "protocol": "TCP", "hostPort": 3306}}]'
+  -p='[{"op": "add", "path": "/spec/template/spec/containers/0/ports/-", "value": {"containerPort": 5432, "protocol": "TCP", "hostPort": 5432}}]'
 ```
 
 ### Ingress as not an Minikube addon
@@ -126,7 +124,7 @@ kubectl patch deployment nginx-ingress-controller \
 
 kubectl patch configmap tcp-services \
   -n ingress-nginx \
-  -p '{"data":{"3306":"mysql/mysql:3306"}}'
+  -p '{"data":{"5432":"postgresql/postgresql:5432"}}'
 
 kubectl get configmap tcp-services \
   -n ingress-nginx -o yaml
@@ -144,7 +142,7 @@ You may use standard admin/admin credentials to login.
 
 ## HeidiSQL
 
-You may use free [HeidiSQL](https://www.heidisql.com/) to connect to PostgreSQL database. Just import preconfigured profile from `heidisql/minikube-mysql.txt`
+You may use free [HeidiSQL](https://www.heidisql.com/) to connect to PostgreSQL database. Just import preconfigured profile from `heidisql/minikube-pgsql.txt`
 
 *Please support HeidiSQL author with the donation*
 

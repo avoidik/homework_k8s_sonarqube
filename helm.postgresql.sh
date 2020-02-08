@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-NAME_SPACE="mysql"
-HELM_CHART="stable/mysql"
-HELM_VER="1.6.2"
+NAME_SPACE="postgresql"
+HELM_CHART="stable/postgresql"
+HELM_VER="8.3.0"
 HELM_NAME="${NAME_SPACE}"
-HOST_PORT="3306"
+HOST_PORT="5432"
 
 DEPS_LIST=("docker-machine" "docker" "minikube" "kubectl" "helm")
 for item in "${DEPS_LIST[@]}"; do
@@ -52,11 +52,11 @@ kubectl create ns "${NAME_SPACE}" || { echo "Error: namespace exist" >&2; exit 1
 # chart info
 helm show chart "${HELM_CHART}" || { echo "Error: chart does not exist" >&2; exit 1; }
 
-# install helm mysql chart
+# install helm postgresql chart
 helm install \
   "${HELM_NAME}" \
   "${HELM_CHART}" \
-  --values values/mysql.yaml \
+  --values values/postgresql.yaml \
   --namespace "${NAME_SPACE}" \
   --version "${HELM_VER}" \
   --atomic || {

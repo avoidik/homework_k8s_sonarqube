@@ -1,17 +1,15 @@
-image:
-  tag: 7.8-community
 database:
-  type: "mysql"
+  type: "postgresql"
 postgresql:
   enabled: false
+  postgresqlServer: "postgresql.postgresql.svc.cluster.local"
+  postgresqlUsername: "sonar-user"
+  postgresqlPassword: "sonar-password"
+  postgresqlDatabase: "sonar-database"
+  service:
+    port: 5432
 mysql:
   enabled: false
-  mysqlServer: "mysql.mysql.svc.cluster.local"
-  mysqlUser: "sonar-user"
-  mysqlPassword: "sonar-password"
-  mysqlDatabase: "sonar-database"
-  service:
-    port: 3306
 persistence:
   enabled: true
 sonarProperties:
