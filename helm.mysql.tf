@@ -3,6 +3,13 @@ variable "minikube_profile" {
   default = "demo"
 }
 
+terraform {
+  required_providers {
+    helm       = "~> 1.0.0"
+    kubernetes = "~> 1.10.0"
+  }
+}
+
 provider "helm" {
   kubernetes {
     config_context = "${var.minikube_profile}"

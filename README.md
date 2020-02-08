@@ -4,7 +4,7 @@
 
 In this exercise we will install SonarQube with MySQL on a local Kubernetes cluster atop Minikube
 
-Please keep in mind, SonarQube 7.9 and above does not support MySQL backend! Therefore, the latest version of SonarQube supported MySQL backend is 7.8.
+Please keep in mind, SonarQube 7.9 and above does not support MySQL backend! Therefore, the latest version of SonarQube supported MySQL backend is 7.8. Check `feature/postgresql` branch if you wanted to use latest version of SonarQube.
 
 Tiller is obsolete in Helm 3, hence not presented in this exercise.
 
@@ -83,7 +83,7 @@ Additional changes might be required to expose service ports through Minikube, a
 At your convenience there are three options available:
 
 1. With Shell automation - applied automatically
-1. With Terraform automation - use `terraform.svc.sh`
+1. With Terraform automation - use `terraform.svc.mysql.sh`
 1. Manually, check steps below
 
 ### Ingress as Minikube addon
@@ -141,6 +141,12 @@ echo "http://$(minikube ip):9000"
 ```
 
 You may use standard admin/admin credentials to login.
+
+## HeidiSQL
+
+You may use free [HeidiSQL](https://www.heidisql.com/) to connect to PostgreSQL database. Just import preconfigured profile from `heidisql/minikube-mysql.txt`
+
+*Please support HeidiSQL author with the donation*
 
 ## Copyright
 
