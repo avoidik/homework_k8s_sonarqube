@@ -5,3 +5,6 @@ service:
   port: 3306
 persistence:
   enabled: true
+  storageClass: manual-mysql
+  accessMode: ReadWriteOnce
+  size: 3Gi

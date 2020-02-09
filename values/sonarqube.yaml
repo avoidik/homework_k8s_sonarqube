@@ -14,5 +14,8 @@ mysql:
     port: 3306
 persistence:
   enabled: true
+  storageClass: manual-sonarqube
+  accessMode: ReadWriteOnce
+  size: 3Gi
 sonarProperties:
   sonar.forceAuthentication: true

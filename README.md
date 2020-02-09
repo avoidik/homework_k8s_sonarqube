@@ -12,8 +12,8 @@ The deployment process is as follows
 
 1. Run Minikube cluster
 1. Configure Helm
-1. Deploy MySQL chart into a separate namespace with data persistance
-1. Deploy SonarQube chart into a separate namespace with data persistance
+1. Deploy MySQL chart into a separate namespace with data persistance (manual PersistentVolume)
+1. Deploy SonarQube chart into a separate namespace with data persistance (manual PersistentVolume)
 1. Configure Ingress for both MySQL and SonarQube
 
 On a first try the deployment process may take up to 5 minutes (e.g. images downloading).
@@ -65,6 +65,7 @@ Terminate deployment
 Initiate deployment
 
 ```bash
+./pv.sh
 ./helm.mysql.sh
 ./helm.sonarqube.sh
 ```
@@ -74,6 +75,7 @@ Terminate deployment
 ```bash
 ./helm.sonarqube.sh --destroy
 ./helm.mysql.sh --destroy
+./pv.sh --destroy
 ```
 
 ## Accessing services

@@ -45,7 +45,7 @@ resource "helm_release" "mysql" {
   namespace  = "mysql"
   atomic     = true
   values     = ["${file("${path.root}/values/mysql.yaml")}"]
-  depends_on = ["kubernetes_namespace.mysql"]
+  depends_on = ["kubernetes_namespace.mysql", "kubernetes_persistent_volume.mysql"]
 }
 
 resource "helm_release" "sonarqube" {
@@ -56,5 +56,5 @@ resource "helm_release" "sonarqube" {
   namespace  = "sonarqube"
   atomic     = true
   values     = ["${file("${path.root}/values/sonarqube.yaml")}"]
-  depends_on = ["kubernetes_namespace.sonarqube", "helm_release.mysql"]
+  depends_on = ["kubernetes_namespace.sonarqube", "kubernetes_persistent_volume.sonarqube", "helm_release.mysql"]
 }
