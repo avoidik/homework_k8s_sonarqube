@@ -5,3 +5,6 @@ service:
   port: 5432
 persistence:
   enabled: true
+  storageClass: manual-postgresql
+  accessMode: ReadWriteOnce
+  size: 3Gi

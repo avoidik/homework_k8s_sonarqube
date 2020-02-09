@@ -45,7 +45,7 @@ resource "helm_release" "postgresql" {
   namespace  = "postgresql"
   atomic     = true
   values     = ["${file("${path.root}/values/postgresql.yaml")}"]
-  depends_on = ["kubernetes_namespace.postgresql"]
+  depends_on = ["kubernetes_namespace.postgresql", "kubernetes_persistent_volume.postgresql"]
 }
 
 resource "helm_release" "sonarqube" {
@@ -56,5 +56,5 @@ resource "helm_release" "sonarqube" {
   namespace  = "sonarqube"
   atomic     = true
   values     = ["${file("${path.root}/values/sonarqube.yaml")}"]
-  depends_on = ["kubernetes_namespace.sonarqube", "helm_release.postgresql"]
+  depends_on = ["kubernetes_namespace.sonarqube", "kubernetes_persistent_volume.sonarqube", "helm_release.postgresql"]
 }

@@ -10,8 +10,8 @@ The deployment process is as follows
 
 1. Run Minikube cluster
 1. Configure Helm
-1. Deploy PostgreSQL chart into a separate namespace with data persistance
-1. Deploy SonarQube chart into a separate namespace with data persistance
+1. Deploy PostgreSQL chart into a separate namespace with data persistance (manual PersistentVolume)
+1. Deploy SonarQube chart into a separate namespace with data persistance (manual PersistentVolume)
 1. Configure Ingress for both PostgreSQL and SonarQube
 
 On a first try the deployment process may take up to 5 minutes (e.g. images downloading).
@@ -63,6 +63,7 @@ Terminate deployment
 Initiate deployment
 
 ```bash
+./pv.sh
 ./helm.postgresql.sh
 ./helm.sonarqube.sh
 ```
@@ -72,6 +73,7 @@ Terminate deployment
 ```bash
 ./helm.sonarqube.sh --destroy
 ./helm.postgresql.sh --destroy
+./pv.sh --destroy
 ```
 
 ## Accessing services

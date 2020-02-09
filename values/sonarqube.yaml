@@ -12,5 +12,8 @@ mysql:
   enabled: false
 persistence:
   enabled: true
+  storageClass: manual-sonarqube
+  accessMode: ReadWriteOnce
+  size: 3Gi
 sonarProperties:
   sonar.forceAuthentication: true
